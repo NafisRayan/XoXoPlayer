@@ -21,7 +21,7 @@ const circleStyle: any = (heightWidth: number) => ({
 const styles = StyleSheet.create({
     playerMaxView: {
         ...flexStyles,
-        backgroundColor: '#a3a3c2',
+        backgroundColor: '#7878ca',
         paddingHorizontal: 5,
         height: verticalScale(300),
         shadowColor: '#000',

@@ -9,9 +9,9 @@ const App: () => React$Node = () => {
 
   return (
     <SafeAreaView style={appContainer}>
-      <StatusBar backgroundColor={'#35427e'} />
+      <StatusBar backgroundColor={'black'} />
       <View style={header}>
-        <Text style={headerTitle}>Audio Player</Text>
+        <Text style={headerTitle}>XOXO Player</Text>
       </View>
       <View style={content}>
         <TracksList />

@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#666699',
+        backgroundColor: '#27274b',
     },
     headerTitle: {
         fontSize: 22,
@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
         flex: 8,
         justifyContent: 'space-around',
         alignItems: 'stretch',
-        backgroundColor: '#e0e0eb',
+        backgroundColor: '#091d3b',
     },
 });
 
