@@ -1,5 +1,5 @@
 // Importing the TrackPlayer library from react-native-track-player
-import TrackPlayer from 'react-native-track-player';
+import TrackPlayer, { Track, Capability } from 'react-native-track-player';
 
 /**
  * AppPlayer class encapsulates functionalities related to audio player operations.
@@ -9,7 +9,7 @@ class AppPlayer {
      * Static property to hold the currently selected track.
      * This can be null if no track is selected.
      */
-    static selectedTrack: TrackPlayer.Track | null;
+    static selectedTrack: Track | null;
 
     /**
      * Initializes the audio player with specific options.
@@ -19,20 +19,20 @@ class AppPlayer {
         try {
             // Updating the player options to customize its behavior
             TrackPlayer.updateOptions({
-                stopWithApp: false, // Music continues in the background even when the app is closed
+                // stopWithApp: false, // Music continues in the background even when the app is closed
                 // Media controls capabilities
                 capabilities: [
-                    TrackPlayer.CAPABILITY_PLAY,
-                    TrackPlayer.CAPABILITY_PAUSE,
-                    TrackPlayer.CAPABILITY_STOP,
-                    TrackPlayer.CAPABILITY_SEEK_TO,
+                    Capability.Play,
+                    Capability.Pause,
+                    Capability.Stop,
+                    Capability.SeekTo,
                 ],
                 // Capabilities that will show up when the notification is in the compact form on Android
                 compactCapabilities: [
-                    TrackPlayer.CAPABILITY_PLAY,
-                    TrackPlayer.CAPABILITY_PAUSE,
-                    TrackPlayer.CAPABILITY_STOP,
-                    TrackPlayer.CAPABILITY_SEEK_TO,
+                    Capability.Play,
+                    Capability.Pause,
+                    Capability.Stop,
+                    Capability.SeekTo,
                 ],
             });
 
