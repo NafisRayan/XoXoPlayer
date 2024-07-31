@@ -11,10 +11,10 @@ import {
 } from 'react-native';
 import TrackPlayer from 'react-native-track-player';
 import { React$Node } from '../../TypesAndInterfaces/AppTypes';
-import { tracks } from '../utilsAndServices/tracks';
-import scaling from '../utilsAndServices/scaling';
-import AppPlayer from '../utilsAndServices/AppPlayer';
-import AudioPlayer from './AudioPlayer/AudioPlayer';
+import { tracks } from '../serviceTools/tracks';
+import scaling from '../serviceTools/scaling';
+import AppPlayer from '../serviceTools/AppPlayer';
+import AudioPlayer from './AudioPlayer';
 
 const { scale, verticalScale } = scaling;
 
