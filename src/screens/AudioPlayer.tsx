@@ -7,9 +7,10 @@ import Icon from 'react-native-vector-icons/Fontisto';
 import { React$Node } from '../../TypesAndInterfaces/AppTypes';
 import AppPlayer from '../serviceTools/AppPlayer';
 import scaling from '../serviceTools/scaling';
+import { Track, State } from 'react-native-track-player';
 
 type compProps = {
-    track: TrackPlayer.Track;
+    track: Track;
     onNextPrevPress: (p: 'prev' | 'next') => void;
 };
 
@@ -41,12 +42,12 @@ const AudioPlayer: (props: compProps) => React$Node = ({ track, onNextPrevPress 
     const onPlayPausePress = async () => {
         const state = await TrackPlayer.getState();
 
-        if (state === TrackPlayer.STATE_PLAYING) {
+        if (state === State.Playing) {
             TrackPlayer.pause();
             setPlaying(false);
         }
 
-        if (state === TrackPlayer.STATE_PAUSED) {
+        if (state === State.Paused) {
             TrackPlayer.play();
             setPlaying(true);
         }
