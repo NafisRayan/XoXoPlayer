@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { ReactNode, useEffect, useState } from 'react';
 import { Image, Text, TouchableOpacity, View, StyleSheet } from 'react-native';
 import TrackPlayer from 'react-native-track-player';
 import useTrackPlayerProgress from '../serviceTools/useTrackPlayerProgress';
 import Slider from '@react-native-community/slider';
 import Icon from 'react-native-vector-icons/Fontisto';
-import { React$Node } from '../../TypesAndInterfaces/AppTypes';
 import AppPlayer from '../serviceTools/AppPlayer';
 import scaling from '../serviceTools/scaling';
 import { Track, State } from 'react-native-track-player';
@@ -14,7 +13,7 @@ type compProps = {
     onNextPrevPress: (p: 'prev' | 'next') => void;
 };
 
-const AudioPlayer: (props: compProps) => React$Node = ({ track, onNextPrevPress }) => {
+const AudioPlayer: (props: compProps) => ReactNode = ({ track, onNextPrevPress }) => {
     const {
         playerMaxView,
         topSection,

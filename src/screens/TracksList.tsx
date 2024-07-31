@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { ReactNode, useEffect, useState } from 'react';
 import {
     FlatList,
     Image,
@@ -10,7 +10,6 @@ import {
     StyleSheet
 } from 'react-native';
 import TrackPlayer from 'react-native-track-player';
-import { React$Node } from '../../TypesAndInterfaces/AppTypes';
 import { tracks } from '../serviceTools/tracks';
 import scaling from '../serviceTools/scaling';
 import AppPlayer from '../serviceTools/AppPlayer';
@@ -87,7 +86,7 @@ const styles = StyleSheet.create({
     },
 });
 
-const TracksList: () => React$Node = () => {
+const TracksList: () => ReactNode = () => {
     const {
         container,
         itemStyle,

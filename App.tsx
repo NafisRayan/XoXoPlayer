@@ -1,10 +1,9 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import { SafeAreaView, StatusBar, Text, View } from 'react-native';
-import { React$Node } from './../TypesAndInterfaces/AppTypes';
 import TracksList from './src/screens/TracksList';
 import styles from './styles';
 
-const App: () => React$Node = () => {
+const App: () => ReactNode = () => {
   const { appContainer, content, header, headerTitle } = styles;
 
   return (
