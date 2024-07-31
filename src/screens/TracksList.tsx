@@ -10,14 +10,11 @@ import {
     StyleSheet
 } from 'react-native';
 import TrackPlayer from 'react-native-track-player';
-// import { Track } from 'react-native-track-player'; // Import Track type
 import type { Track } from 'react-native-track-player';
 import { tracks } from '../serviceTools/tracks';
 import scaling from '../serviceTools/scaling';
 import AppPlayer from '../serviceTools/AppPlayer';
 import AudioPlayer from './AudioPlayer';
-
-
 
 const { scale, verticalScale } = scaling;
 
@@ -178,7 +175,7 @@ const TracksList: () => ReactNode = () => {
             </View>
             {selectedTrack && (
                 <View style={playerBox}>
-                    <AudioPlayer track={selectedTrack} onNextPrevPress={(direction) => direction === 'next' ? playNext() : playPrevious()} />
+                    <AudioPlayer track={selectedTrack} onNextPrevPress={(direction) => direction === 'next' ? playNext() : playPrevious()} onGoBackPress={() => setSelectedTrack(null)} />
                 </View>
             )}
         </SafeAreaView>

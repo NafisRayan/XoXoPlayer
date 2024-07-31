@@ -3,7 +3,6 @@ import { Image, Text, TouchableOpacity, View, StyleSheet } from 'react-native';
 import TrackPlayer from 'react-native-track-player';
 import useTrackPlayerProgress from '../serviceTools/useTrackPlayerProgress';
 import Slider from '@react-native-community/slider';
-import Icon from 'react-native-vector-icons/Fontisto';
 import AppPlayer from '../serviceTools/AppPlayer';
 import scaling from '../serviceTools/scaling';
 import { Track, State } from 'react-native-track-player';
@@ -11,9 +10,10 @@ import { Track, State } from 'react-native-track-player';
 type compProps = {
     track: Track;
     onNextPrevPress: (p: 'prev' | 'next') => void;
+    onGoBackPress: () => void; // New prop for the Go Back button
 };
 
-const AudioPlayer: (props: compProps) => ReactNode = ({ track, onNextPrevPress }) => {
+const AudioPlayer: (props: compProps) => ReactNode = ({ track, onNextPrevPress, onGoBackPress }) => {
     const {
         playerMaxView,
         topSection,
@@ -27,6 +27,7 @@ const AudioPlayer: (props: compProps) => ReactNode = ({ track, onNextPrevPress }
         trackDesc,
         trackTitle,
         trackSubtitle,
+        goBackButton, // New style for the Go Back button
     } = styles;
 
     const progress = useTrackPlayerProgress();
@@ -57,9 +58,14 @@ const AudioPlayer: (props: compProps) => ReactNode = ({ track, onNextPrevPress }
     const playOrPauseIcon = isPlaying ? require('../assets/icons/play.png') : require('../assets/icons/pause.png');
     const prevIcon = require('../assets/icons/previous.png');
     const nextIcon = require('../assets/icons/next.png');
+    const goBackIcon = require('../assets/icons/back.png'); // Icon for the Go Back button
+
     return (
         <View style={playerMaxView}>
             <View style={topSection}>
+                <TouchableOpacity onPress={onGoBackPress} style={goBackButton}>
+                    <Image source={goBackIcon} style={{ width: 20, height: 20 }} />
+                </TouchableOpacity>
                 <View style={trackArtBox}>
                     <Image style={trackArt} source={{ uri: artImg }} />
                 </View>
@@ -90,7 +96,6 @@ const AudioPlayer: (props: compProps) => ReactNode = ({ track, onNextPrevPress }
             <View style={buttonsSection}>
                 <View style={[buttonsCol, { alignItems: 'flex-end' }]}>
                     <TouchableOpacity onPress={() => onNextPrevPress('prev')}>
-                        {/* <Icon name="step-backwrad" size={18} color="#52527a" /> */}
                         <View style={{ transform: [{ scaleX: 1.5 }, { scaleY: 1.5 }] }}>
                             <Image source={prevIcon} style={{ width: 25, height: 25 }} />
                         </View>
@@ -98,7 +103,6 @@ const AudioPlayer: (props: compProps) => ReactNode = ({ track, onNextPrevPress }
                 </View>
                 <View style={buttonsCol}>
                     <TouchableOpacity onPress={onPlayPausePress} style={playPauseButton}>
-                        {/* <Icon name={playOrPauseIcon} size={14} color="#000" style={playPauseIcon} /> */}
                         <View style={{ transform: [{ scaleX: 1.5 }, { scaleY: 1.5 }] }}>
                             <Image source={playOrPauseIcon} style={{ width: 28, height: 28 }} />
                         </View>
@@ -106,7 +110,6 @@ const AudioPlayer: (props: compProps) => ReactNode = ({ track, onNextPrevPress }
                 </View>
                 <View style={[buttonsCol, { alignItems: 'flex-start' }]}>
                     <TouchableOpacity onPress={() => onNextPrevPress('next')}>
-                        {/* <Icon name="step-forward" size={18} color="#52527a" /> */}
                         <View style={{ transform: [{ scaleX: 1.5 }, { scaleY: 1.5 }] }}>
                             <Image source={nextIcon} style={{ width: 25, height: 25 }} />
                         </View>
@@ -159,6 +162,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         paddingTop: 10,
+        flexDirection: 'row', // Added flexDirection
     },
     progrsBarSection: {
         ...flexStyles,
@@ -200,14 +204,36 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     trackTitle: {
-        fontSize: scale(20),
+        fontSize: scale(18),
         fontWeight: 'bold',
         color: '#3d3d5c',
+        // left: 50,
+        right: 80,
+        bottom: 8
     },
     trackSubtitle: {
-        fontSize: scale(16),
+        fontSize: scale(12),
         fontWeight: 'bold',
         color: '#3d3d5c',
+        right: 80,
+        bottom: 8
+    },
+    goBackButton: {
+        position: 'absolute',
+        top: 10,
+        left: 10,
+        zIndex: 10,
+        padding: 10,
+        backgroundColor: '#fff',
+        borderRadius: 50,
+        shadowColor: '#000',
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+        elevation: 5,
     },
 });
 
