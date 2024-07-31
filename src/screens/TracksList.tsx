@@ -10,10 +10,14 @@ import {
     StyleSheet
 } from 'react-native';
 import TrackPlayer from 'react-native-track-player';
+// import { Track } from 'react-native-track-player'; // Import Track type
+import type { Track } from 'react-native-track-player';
 import { tracks } from '../serviceTools/tracks';
 import scaling from '../serviceTools/scaling';
 import AppPlayer from '../serviceTools/AppPlayer';
 import AudioPlayer from './AudioPlayer';
+
+
 
 const { scale, verticalScale } = scaling;
 
@@ -113,17 +117,30 @@ const TracksList: () => ReactNode = () => {
         setSelectedTrack(track);
     };
 
-    const playNextPrev = async (prevOrNext: 'prev' | 'next') => {
-        const currentTrackId = await TrackPlayer.getCurrentTrack();
-        if (!currentTrackId) return;
-        const trkIndex = tracks.findIndex(trk => trk.id === currentTrackId);
+    // New function to play the next track
+    const playNext = async () => {
+        const currentIndex = tracks.findIndex(track => track.id === selectedTrack?.id);
+        if (currentIndex >= tracks.length - 1) return; // If we're at the end of the list, don't change anything
 
-        if (prevOrNext === 'next' && trkIndex < tracks.length - 1) {
-            onTrackItemPress(tracks[trkIndex + 1]);
-        }
-        if (prevOrNext === 'prev' && trkIndex > 0) {
-            onTrackItemPress(tracks[trkIndex - 1]);
-        }
+        const nextTrack = tracks[currentIndex + 1];
+        await TrackPlayer.stop();
+        await TrackPlayer.reset();
+        setSelectedTrack(nextTrack); // Update the selected track
+        await TrackPlayer.add(nextTrack); // Add the next track to the queue
+        await TrackPlayer.play(); // Play the next track
+    };
+
+    // New function to play the previous track
+    const playPrevious = async () => {
+        const currentIndex = tracks.findIndex(track => track.id === selectedTrack?.id);
+        if (currentIndex <= 0) return; // If we're at the beginning of the list, don't change anything
+
+        const prevTrack = tracks[currentIndex - 1];
+        await TrackPlayer.stop();
+        await TrackPlayer.reset();
+        setSelectedTrack(prevTrack); // Update the selected track
+        await TrackPlayer.add(prevTrack); // Add the previous track to the queue
+        await TrackPlayer.play(); // Play the previous track
     };
 
     const renderItem: ListRenderItem<TrackPlayer.Track> = ({ item }) => {
@@ -161,7 +178,7 @@ const TracksList: () => ReactNode = () => {
             </View>
             {selectedTrack && (
                 <View style={playerBox}>
-                    <AudioPlayer track={selectedTrack} onNextPrevPress={playNextPrev} />
+                    <AudioPlayer track={selectedTrack} onNextPrevPress={(direction) => direction === 'next' ? playNext() : playPrevious()} />
                 </View>
             )}
         </SafeAreaView>
