@@ -54,7 +54,9 @@ const AudioPlayer: (props: compProps) => ReactNode = ({ track, onNextPrevPress }
 
     const artImg = track.artwork || `https://picsum.photos/150/200/?random=${Math.random()}`;
 
-    const playOrPauseIcon = isPlaying ? 'pause' : 'play';
+    const playOrPauseIcon = isPlaying ? require('../assets/icons/play.png') : require('../assets/icons/pause.png');
+    const prevIcon = require('../assets/icons/previous.png');
+    const nextIcon = require('../assets/icons/next.png');
     return (
         <View style={playerMaxView}>
             <View style={topSection}>
@@ -88,17 +90,26 @@ const AudioPlayer: (props: compProps) => ReactNode = ({ track, onNextPrevPress }
             <View style={buttonsSection}>
                 <View style={[buttonsCol, { alignItems: 'flex-end' }]}>
                     <TouchableOpacity onPress={() => onNextPrevPress('prev')}>
-                        <Icon name="step-backwrad" size={18} color="#52527a" />
+                        {/* <Icon name="step-backwrad" size={18} color="#52527a" /> */}
+                        <View style={{ transform: [{ scaleX: 1.5 }, { scaleY: 1.5 }] }}>
+                            <Image source={prevIcon} style={{ width: 25, height: 25 }} />
+                        </View>
                     </TouchableOpacity>
                 </View>
                 <View style={buttonsCol}>
                     <TouchableOpacity onPress={onPlayPausePress} style={playPauseButton}>
-                        <Icon name={playOrPauseIcon} size={14} color="#000" style={playPauseIcon} />
+                        {/* <Icon name={playOrPauseIcon} size={14} color="#000" style={playPauseIcon} /> */}
+                        <View style={{ transform: [{ scaleX: 1.5 }, { scaleY: 1.5 }] }}>
+                            <Image source={playOrPauseIcon} style={{ width: 28, height: 28 }} />
+                        </View>
                     </TouchableOpacity>
                 </View>
                 <View style={[buttonsCol, { alignItems: 'flex-start' }]}>
                     <TouchableOpacity onPress={() => onNextPrevPress('next')}>
-                        <Icon name="step-forward" size={18} color="#52527a" />
+                        {/* <Icon name="step-forward" size={18} color="#52527a" /> */}
+                        <View style={{ transform: [{ scaleX: 1.5 }, { scaleY: 1.5 }] }}>
+                            <Image source={nextIcon} style={{ width: 25, height: 25 }} />
+                        </View>
                     </TouchableOpacity>
                 </View>
             </View>
