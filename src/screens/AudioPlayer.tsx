@@ -143,7 +143,7 @@ const styles = StyleSheet.create({
         ...flexStyles,
         backgroundColor: '#7878ca',
         paddingHorizontal: 5,
-        height: verticalScale(300),
+        // height: verticalScale(300),
         shadowColor: '#000',
         shadowOffset: {
             width: 0,
@@ -197,6 +197,7 @@ const styles = StyleSheet.create({
     trackArt: {
         ...circleStyle(90),
         borderWidth: 2,
+        left: 15
     },
     trackDesc: {
         ...flexStyles,
