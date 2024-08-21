@@ -75,11 +75,6 @@ const tracks: TrackPlayer.Track[] = [
 
 
 
-
-
-
-
-
 const { scale, verticalScale } = scaling;
 
 const circleStyle: any = (heightWidth: number) => ({
@@ -94,17 +89,19 @@ const circleStyle: any = (heightWidth: number) => ({
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        backgroundColor: '#0F2027', // Deep blue background similar to Netflix
     },
     itemStyle: {
         marginTop: verticalScale(10),
-        paddingHorizontal: scale(8),
+        paddingHorizontal: scale(12),
         display: 'flex',
         flexDirection: 'row',
-        justifyContent: 'space-around',
-        alignItems: 'stretch',
+        justifyContent: 'space-between', // Adjusted for spacing
+        alignItems: 'center',
         height: verticalScale(80),
-        borderBottomColor: '#333',
-        borderWidth: 0,
+        borderWidth: 1,
+        backgroundColor: '#1F1F1F', // Slightly lighter blue for items
+        padding: verticalScale(8), // Added padding around each item
     },
     trackImgBox: {
         flex: 1,
@@ -117,9 +114,13 @@ const styles = StyleSheet.create({
         marginLeft: scale(5),
         borderRadius: 5,
         display: 'flex',
+        backgroundColor: '#1F1F1F', // Slightly lighter blue for text box
+        padding: verticalScale(8),
     },
     trackImg: {
         ...circleStyle(50),
+        borderColor: '#007AFF', // Blue border for image
+        borderWidth: 2, // Thicker border
     },
     titleBox: {
         flex: 2,
@@ -135,12 +136,16 @@ const styles = StyleSheet.create({
     title: {
         fontSize: scale(18),
         fontWeight: 'bold',
+        color: '#00FFFF', // Sky blue text for contrast
     },
     subTitle: {
         fontSize: scale(15),
+        color: '#ADD8E6', // Light blue text for secondary details
     },
     listBox: {
         height: '100%',
+        paddingHorizontal: scale(10), // Added horizontal padding
+        paddingVertical: verticalScale(10),
     },
     playerBox: {
         position: 'absolute',
@@ -148,6 +153,9 @@ const styles = StyleSheet.create({
         height: '50%',
         width: '100%',
         bottom: 0,
+        backgroundColor: '#007FFF', // Bright blue background for player controls
+        borderTopLeftRadius: 10, // Rounded corners
+        borderTopRightRadius: 10,
     },
 });
 
