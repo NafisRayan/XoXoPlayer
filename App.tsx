@@ -10,7 +10,7 @@ const App: () => ReactNode = () => {
     <SafeAreaView style={appContainer}>
       <StatusBar backgroundColor={'black'} />
       <View style={header}>
-        <Text style={headerTitle}>XOXO Player</Text>
+        <Text style={headerTitle}>Onizuka Player</Text>
       </View>
       <View style={content}>
         <TracksList />

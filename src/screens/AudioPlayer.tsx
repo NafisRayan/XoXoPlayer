@@ -95,7 +95,7 @@ const AudioPlayer: (props: compProps) => ReactNode = ({ track, onNextPrevPress, 
             </View>
             <View style={buttonsSection}>
                 <View style={[buttonsCol, { alignItems: 'flex-end' }]}>
-                    <TouchableOpacity onPress={() => onNextPrevPress('prev')}>
+                    <TouchableOpacity onPress={() => onNextPrevPress('prev')} style={playPauseButton}>
                         <View style={{ transform: [{ scaleX: 1.5 }, { scaleY: 1.5 }] }}>
                             <Image source={prevIcon} style={{ width: 25, height: 25 }} />
                         </View>
@@ -109,7 +109,7 @@ const AudioPlayer: (props: compProps) => ReactNode = ({ track, onNextPrevPress, 
                     </TouchableOpacity>
                 </View>
                 <View style={[buttonsCol, { alignItems: 'flex-start' }]}>
-                    <TouchableOpacity onPress={() => onNextPrevPress('next')}>
+                    <TouchableOpacity onPress={() => onNextPrevPress('next')} style={playPauseButton}>
                         <View style={{ transform: [{ scaleX: 1.5 }, { scaleY: 1.5 }] }}>
                             <Image source={nextIcon} style={{ width: 25, height: 25 }} />
                         </View>
@@ -141,7 +141,7 @@ const circleStyle: any = (heightWidth: number) => ({
 const styles = StyleSheet.create({
     playerMaxView: {
         ...flexStyles,
-        backgroundColor: '#7878ca',
+        backgroundColor: '#5a6ac7',
         paddingHorizontal: 5,
         // height: verticalScale(300),
         shadowColor: '#000',
@@ -184,7 +184,7 @@ const styles = StyleSheet.create({
     },
     playPauseButton: {
         ...circleStyle(60),
-        backgroundColor: '#52527a',
+        backgroundColor: '#52527a5e',
     },
     playPauseIcon: {
         color: '#fff',
@@ -207,7 +207,7 @@ const styles = StyleSheet.create({
     trackTitle: {
         fontSize: scale(18),
         fontWeight: 'bold',
-        color: '#3d3d5c',
+        color: '#222233',
         // left: 50,
         right: 80,
         bottom: 8
@@ -215,7 +215,7 @@ const styles = StyleSheet.create({
     trackSubtitle: {
         fontSize: scale(12),
         fontWeight: 'bold',
-        color: '#3d3d5c',
+        color: '#222233',
         right: 80,
         bottom: 8
     },
@@ -225,16 +225,16 @@ const styles = StyleSheet.create({
         left: 10,
         zIndex: 10,
         padding: 10,
-        backgroundColor: '#fff',
+        backgroundColor: '#ffffff4c',
         borderRadius: 50,
-        shadowColor: '#000',
-        shadowOffset: {
-            width: 0,
-            height: 2,
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 4,
-        elevation: 5,
+        // shadowColor: '#000',
+        // shadowOffset: {
+        //     width: 0,
+        //     height: 2,
+        // },
+        // shadowOpacity: 0.25,
+        // shadowRadius: 4,
+        // elevation: 5,
     },
 });
 

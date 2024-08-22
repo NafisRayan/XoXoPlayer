@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        backgroundColor: '#007AFF',
+        backgroundColor: '#004a99',
         padding: verticalScale(8),
     },
     albumTitle: {
@@ -107,7 +107,7 @@ const styles = StyleSheet.create({
         height: '50%',
         width: '100%',
         bottom: 0,
-        backgroundColor: '#007FFF',
+        backgroundColor: 'black',
         borderTopLeftRadius: 10,
         borderTopRightRadius: 10,
     },
