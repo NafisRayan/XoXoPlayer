@@ -2,18 +2,17 @@ import React, { ReactNode, useEffect, useState } from 'react';
 import {
     FlatList,
     Image,
-    ListRenderItem,
+    ScrollView,
     SafeAreaView,
     Text,
     TouchableOpacity,
     View,
-    StyleSheet
+    StyleSheet,
 } from 'react-native';
 import TrackPlayer from 'react-native-track-player';
 import scaling from '../serviceTools/scaling';
 import AppPlayer from '../serviceTools/AppPlayer';
 import AudioPlayer from './AudioPlayer';
-
 
 const tracks: TrackPlayer.Track[] = [
     {
@@ -73,8 +72,6 @@ const tracks: TrackPlayer.Track[] = [
 ];
 
 
-
-
 const { scale, verticalScale } = scaling;
 
 const circleStyle: any = (heightWidth: number) => ({
@@ -89,19 +86,32 @@ const circleStyle: any = (heightWidth: number) => ({
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#0F2027', // Deep blue background similar to Netflix
+        backgroundColor: '#0F2027',
     },
     itemStyle: {
         marginTop: verticalScale(10),
         paddingHorizontal: scale(12),
-        display: 'flex',
         flexDirection: 'row',
-        justifyContent: 'space-between', // Adjusted for spacing
+        justifyContent: 'space-between',
         alignItems: 'center',
         height: verticalScale(80),
         borderWidth: 1,
-        backgroundColor: '#1F1F1F', // Slightly lighter blue for items
-        padding: verticalScale(8), // Added padding around each item
+        backgroundColor: '#1F1F1F',
+        padding: verticalScale(8),
+    },
+    albumHeader: {
+        marginTop: verticalScale(10),
+        paddingHorizontal: scale(12),
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        backgroundColor: '#007AFF',
+        padding: verticalScale(8),
+    },
+    albumTitle: {
+        fontSize: scale(20),
+        fontWeight: 'bold',
+        color: '#FFF',
     },
     trackImgBox: {
         flex: 1,
@@ -113,14 +123,13 @@ const styles = StyleSheet.create({
         paddingLeft: scale(10),
         marginLeft: scale(5),
         borderRadius: 5,
-        display: 'flex',
-        backgroundColor: '#1F1F1F', // Slightly lighter blue for text box
+        backgroundColor: '#1F1F1F',
         padding: verticalScale(8),
     },
     trackImg: {
         ...circleStyle(50),
-        borderColor: '#007AFF', // Blue border for image
-        borderWidth: 2, // Thicker border
+        borderColor: '#007AFF',
+        borderWidth: 2,
     },
     titleBox: {
         flex: 2,
@@ -136,15 +145,15 @@ const styles = StyleSheet.create({
     title: {
         fontSize: scale(18),
         fontWeight: 'bold',
-        color: '#00FFFF', // Sky blue text for contrast
+        color: '#00FFFF',
     },
     subTitle: {
         fontSize: scale(15),
-        color: '#ADD8E6', // Light blue text for secondary details
+        color: '#ADD8E6',
     },
     listBox: {
         height: '100%',
-        paddingHorizontal: scale(10), // Added horizontal padding
+        paddingHorizontal: scale(10),
         paddingVertical: verticalScale(10),
     },
     playerBox: {
@@ -153,11 +162,22 @@ const styles = StyleSheet.create({
         height: '50%',
         width: '100%',
         bottom: 0,
-        backgroundColor: '#007FFF', // Bright blue background for player controls
-        borderTopLeftRadius: 10, // Rounded corners
+        backgroundColor: '#007FFF',
+        borderTopLeftRadius: 10,
         borderTopRightRadius: 10,
     },
 });
+
+const groupTracksByAlbum = (tracks: TrackPlayer.Track[]) => {
+    return tracks.reduce((albums: { [key: string]: TrackPlayer.Track[] }, track) => {
+        const album = track.album || 'Unknown Album';
+        if (!albums[album]) {
+            albums[album] = [];
+        }
+        albums[album].push(track);
+        return albums;
+    }, {});
+};
 
 const TracksList: () => ReactNode = () => {
     const {
@@ -172,9 +192,12 @@ const TracksList: () => ReactNode = () => {
         trackImg,
         trackImgBox,
         trackDescBox,
+        albumHeader,
+        albumTitle,
     } = styles;
 
     const [selectedTrack, setSelectedTrack] = useState<TrackPlayer.Track | null>(null);
+    const [albumVisibility, setAlbumVisibility] = useState<{ [key: string]: boolean }>({});
 
     useEffect(() => {
         AppPlayer.initializePlayer();
@@ -184,6 +207,13 @@ const TracksList: () => ReactNode = () => {
         await TrackPlayer.stop();
         await TrackPlayer.reset();
         setSelectedTrack(track);
+    };
+
+    const toggleAlbumVisibility = (album: string) => {
+        setAlbumVisibility(prev => ({
+            ...prev,
+            [album]: !prev[album],
+        }));
     };
 
     // New function to play the next track
@@ -212,12 +242,11 @@ const TracksList: () => ReactNode = () => {
         await TrackPlayer.play(); // Play the previous track
     };
 
-    const renderItem: ListRenderItem<TrackPlayer.Track> = ({ item }) => {
+    const renderItem = (item: TrackPlayer.Track) => {
         const artImg = item.artwork || `https://picsum.photos/150/200/?random=${Math.random()}`;
 
         let highlightStyle = {};
-        if (selectedTrack && selectedTrack.id === item.id)
-            highlightStyle = { backgroundColor: 'black' };
+        if (selectedTrack && selectedTrack.id === item.id) highlightStyle = { backgroundColor: 'black' };
 
         return (
             <TouchableOpacity
@@ -231,27 +260,52 @@ const TracksList: () => ReactNode = () => {
                         <Text style={title}>{item.title}</Text>
                     </View>
                     <View style={subTitleBox}>
-                        <Text style={subTitle}>{item.artist || item.album || 'Unknown'}</Text>
+                        <Text style={subTitle}>{item.artist || 'Unknown'}</Text>
                     </View>
                 </View>
             </TouchableOpacity>
         );
     };
 
+    const renderAlbum = (album: string, tracks: TrackPlayer.Track[]) => {
+        const isVisible = albumVisibility[album];
+        return (
+            <View key={album}>
+                <TouchableOpacity onPress={() => toggleAlbumVisibility(album)} style={albumHeader}>
+                    <Text style={albumTitle}>{album}</Text>
+                    <Text style={albumTitle}>{isVisible ? '-' : '+'}</Text>
+                </TouchableOpacity>
+                {isVisible && tracks.map(track => renderItem(track))}
+            </View>
+        );
+    };
+
+    const groupedTracks = groupTracksByAlbum(tracks);
+
     let listBoxStyle = {};
     if (selectedTrack) listBoxStyle = { paddingBottom: verticalScale(320) };
+
     return (
         <SafeAreaView style={container}>
-            <View style={[listBox, listBoxStyle]}>
-                <FlatList data={tracks} renderItem={renderItem} keyExtractor={item => item.id} />
-            </View>
+            <FlatList
+                data={Object.keys(groupedTracks).map(album => ({ key: album, value: groupedTracks[album] }))}
+                renderItem={({ item }) => renderAlbum(item.key, item.value)}
+                keyExtractor={(item) => item.key}
+                extraData={groupedTracks}
+                contentContainerStyle={{ flexGrow: 1 }}
+            />
             {selectedTrack && (
                 <View style={playerBox}>
-                    <AudioPlayer track={selectedTrack} onNextPrevPress={(direction) => direction === 'next' ? playNext() : playPrevious()} onGoBackPress={() => setSelectedTrack(null)} />
+                    <AudioPlayer
+                        track={selectedTrack}
+                        onNextPrevPress={direction =>
+                            direction === 'next' ? playNext() : playPrevious()
+                        }
+                        onGoBackPress={() => setSelectedTrack(null)}
+                    />
                 </View>
             )}
         </SafeAreaView>
     );
 };
-
 export default TracksList;
