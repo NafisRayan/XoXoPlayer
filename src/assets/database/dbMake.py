@@ -1,4 +1,7 @@
-[
+import sqlite3
+
+# JSON data with progress field added
+tracks_data = [
     {
         "id": "1",
         "url": "https://www.chosic.com/wp-content/uploads/2021/07/Raindrops-on-window-sill.mp3",
@@ -60,3 +63,34 @@
         "progress": 0
     }
 ]
+
+# Connect to SQLite database (or create it)
+conn = sqlite3.connect('tracks.db')
+cursor = conn.cursor()
+
+# Create table with an additional 'progress' column
+cursor.execute('''
+CREATE TABLE IF NOT EXISTS tracks (
+    id INTEGER PRIMARY KEY,
+    url TEXT NOT NULL,
+    title TEXT NOT NULL,
+    artist TEXT,
+    artwork TEXT,
+    album TEXT,
+    duration INTEGER,
+    progress INTEGER DEFAULT 0
+)
+''')
+
+# Insert JSON data into the SQLite table
+for track in tracks_data:
+    cursor.execute('''
+    INSERT INTO tracks (id, url, title, artist, artwork, album, duration, progress)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+    ''', (track["id"], track["url"], track["title"], track["artist"], track["artwork"], track["album"], track["duration"], track["progress"]))
+
+# Commit and close connection
+conn.commit()
+conn.close()
+
+print("Data with progress field inserted into tracks.db successfully.")
